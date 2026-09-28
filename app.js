@@ -59,7 +59,7 @@ function updateDateTime() {
     let hours = now.getHours();
     let minutes = now.getMinutes();
     let seconds = now.getSeconds();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const ampm = hours >= 12 ? 'شام' : 'صبح';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     
