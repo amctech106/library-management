@@ -75,7 +75,7 @@
             
             <!-- Search Card -->
             <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 max-w-4xl mx-auto mb-10">
-                <h2 class="text-xl font-bold mb-6 text-gray-800 text-right">ڈیٹا بیس تلاش کریں</h2>
+                <h2 class="text-xl font-bold mb-6 text-gray-800 text-right">کتابیں تلاش کریں</h2>
                 <div class="flex flex-col md:flex-row gap-4 items-center">
                     <select id="searchType" class="border border-gray-300 p-2.5 rounded-md bg-white min-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
                         <option value="title">کتاب کے نام سے</option>
@@ -120,7 +120,7 @@
             <div class="flex flex-col md:flex-row gap-6">
                 <!-- Sidebar Categories -->
                 <div class="w-full md:w-1/5 border-l border-gray-200 pl-4 print:hidden">
-                    <h3 class="font-bold text-lg mb-4 text-gray-700 bg-gray-50 p-2 rounded text-center">کیٹیگریز</h3>
+                    <h3 class="font-bold text-lg mb-4 text-gray-700 bg-gray-50 p-2 rounded text-center">مضامین</h3>
                     <ul id="categoryList" class="space-y-3 pr-2">
                         <!-- Populated by JS -->
                     </ul>
@@ -132,12 +132,12 @@
                         <thead>
                             <tr>
                                 <th class="print:hidden text-center" style="width: 50px;">منتخب</th>
-                                <th class="text-center">سیریل نمبر</th>
+                                <th class="text-center">نمبر شمار</th>
                                 <th>کتاب کا نام</th>
                                 <th>مصنف</th>
                                 <th>پبلشر</th>
-                                <th class="text-center">جلدیں</th>
-                                <th class="text-center">مسنگ</th>
+                                <th class="text-center">تمام جلدیں</th>
+                                <th class="text-center">مفقود جلدیں</th>
                                 <th class="text-center">الماری نمبر</th>
                             </tr>
                         </thead>
@@ -165,6 +165,7 @@
                     <thead>
                         <tr>
                             <th>نام (استاد/طالب علم)</th>
+                            <!-- <th>کلاس کا نام</th> -->
                             <th>کتاب کا نام</th>
                             <th class="text-center">جاری شدہ تاریخ</th>
                             <th class="text-center">واپسی کی تاریخ</th>
@@ -213,14 +214,14 @@
                     <input type="text" id="bShelf" class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded border">
-                    <label class="block mb-2 font-bold text-gray-700">کیٹیگری / موضوع</label>
+                    <label class="block mb-2 font-bold text-gray-700">مضامین / موضوع</label>
                     <select id="bCategorySelect" class="w-full border p-2.5 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="checkCustomCategory()">
                         <option value="تفسیر">تفسیر</option>
                         <option value="حدیث">حدیث</option>
                         <option value="فقہ">فقہ</option>
-                        <option value="other">نئی کیٹیگری شامل کریں...</option>
+                        <option value="other">نیا مضمون شامل کریں شامل کریں...</option>
                     </select>
-                    <input type="text" id="bCategoryInput" placeholder="یہاں نئی کیٹیگری کا نام لکھیں" class="w-full border p-2.5 rounded hidden focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="bCategoryInput" placeholder="یہاں نئے مضمون کا نام لکھیں" class="w-full border p-2.5 rounded hidden focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="col-span-1 md:col-span-2">
                     <label class="block mb-2 font-bold text-gray-700">کتاب کی تصویر (اختیاری)</label>
@@ -269,7 +270,7 @@
     <footer class="bg-[#1f2937] text-white text-center p-5 mt-auto print:hidden">
         <p>
             <a href="https://github.com/amctech106" target="_blank" class="hover:text-gray-300 transition flex items-center justify-center gap-2 text-lg">
-                <i class="fab fa-github text-2xl"></i> پاورڈ بائی عبدالمجید چانڈیو
+                <i class="fab fa-github text-2xl"></i> عبدالمجید چانڈیو
             </a>
         </p>
     </footer>
