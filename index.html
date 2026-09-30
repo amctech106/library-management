@@ -1,141 +1,145 @@
 <!doctype html>
 <html lang="ur" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لائبریری</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لائبریری</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap");
+      @font-face {
+        font-family: "Jameel Noori Nastaleeq";
+        src:
+          local("Jameel Noori Nastaleeq"),
+          local("Jameel Noori Nastaleeq Regular");
+      }
 
-    @font-face {
-      font-family: "Jameel Noori Nastaleeq";
-      src:
-        local("Jameel Noori Nastaleeq"),
-        local("Jameel Noori Nastaleeq Regular");
-    }
+      body {
+        font-family: "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", serif;
+        background-color: #f4f6f9;
+        line-height: 2.2;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
 
-    body {
-      font-family: "Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", serif;
-      background-color: #f4f6f9;
-      line-height: 2.2;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+      .hidden {
+        display: none !important;
+      }
+      .btn {
+        padding: 0.5rem 2rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+      .btn-primary {
+        background-color: #2563eb;
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: #1d4ed8;
+      }
+      .btn-danger {
+        background-color: #ef4444;
+        color: white;
+      }
+      .btn-success {
+        background-color: #10b981;
+        color: white;
+      }
+      .icon-btn {
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        transition: background-color 0.3s;
+      }
+      .icon-btn:hover {
+        background-color: #e5e7eb;
+      }
+      .nav-icon {
+        font-size: 1.5rem;
+        margin: 0 12px;
+        cursor: pointer;
+        transition: color 0.3s;
+        color: white;
+      }
+      .nav-icon:hover {
+        color: #cbd5e1;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #e2e8f0;
+        padding: 0.75rem 1rem;
+        text-align: right;
+      }
+      th {
+        background-color: #f8fafc;
+        font-weight: bold;
+        color: #334155;
+      }
+      tr:hover {
+        background-color: #f1f5f9;
+      }
+    </style>
+  </head>
 
-    .hidden {
-      display: none !important;
-    }
+  <body class="text-gray-800">
+    <!-- Navbar -->
+    <nav
+      class="bg-[#1e40af] p-3 shadow-md flex justify-between items-center print:hidden"
+    >
+      <div
+        id="dateTimeDisplay"
+        class="text-sm font-sans text-white mr-4 mt-1"
+        dir="rtl"
+      ></div>
+      <div class="flex items-center ml-4">
+        <button
+          onclick="showPage('issuedPage')"
+          class="nav-icon"
+          title="کتابوں کا اجراء"
+        >
+          <i class="fas fa-hand-holding"></i>
+        </button>
+        <button
+          onclick="showPage('booksPage')"
+          class="nav-icon"
+          title="کتابوں کی فہرست"
+        >
+          <i class="fas fa-book"></i>
+        </button>
+        <button onclick="showPage('mainPage')" class="nav-icon" title="مین پیج">
+          <i class="fas fa-home"></i>
+        </button>
+      </div>
+    </nav>
 
-    .btn {
-      padding: 0.5rem 2rem;
-      border-radius: 0.375rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-
-    .btn-primary {
-      background-color: #2563eb;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #1d4ed8;
-    }
-
-    .btn-danger {
-      background-color: #ef4444;
-      color: white;
-    }
-
-    .btn-success {
-      background-color: #10b981;
-      color: white;
-    }
-
-    .icon-btn {
-      cursor: pointer;
-      padding: 0.5rem;
-      border-radius: 0.25rem;
-      transition: background-color 0.3s;
-    }
-
-    .icon-btn:hover {
-      background-color: #e5e7eb;
-    }
-
-    /* Navbar Icons */
-    .nav-icon {
-      font-size: 1.5rem;
-      margin: 0 12px;
-      cursor: pointer;
-      transition: color 0.3s;
-      color: white;
-    }
-
-    .nav-icon:hover {
-      color: #cbd5e1;
-    }
-
-    /* Table enhancements */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      border: 1px solid #e2e8f0;
-      padding: 0.75rem 1rem;
-      text-align: right;
-    }
-
-    th {
-      background-color: #f8fafc;
-      font-weight: bold;
-      color: #334155;
-    }
-
-    tr:hover {
-      background-color: #f1f5f9;
-    }
-  </style>
-</head>
-
-<body class="text-gray-800">
-  <!-- Navbar -->
-  <nav class="bg-[#1e40af] p-3 shadow-md flex justify-between items-center print:hidden">
-    <div id="dateTimeDisplay" class="text-sm font-sans text-white mr-4 mt-1" dir="rtl"></div>
-    <div class="flex items-center ml-4">
-      <button onclick="showPage('issuedPage')" class="nav-icon" title="کتابوں کا اجراء">
-        <i class="fas fa-hand-holding"></i>
-      </button>
-      <button onclick="showPage('booksPage')" class="nav-icon" title="کتابوں کی فہرست">
-        <i class="fas fa-book"></i>
-      </button>
-      <button onclick="showPage('mainPage')" class="nav-icon" title="مین پیج">
-        <i class="fas fa-home"></i>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Main Content Container -->
-  <div class="container mx-auto p-4 mt-6 flex-grow">
-    <!-- Main Page -->
-    <div id="mainPage" class="fade-in">
-      <div class="text-center mb-10">
-        <div style="
+    <!-- Main Content Container -->
+    <div class="container mx-auto p-4 mt-6 flex-grow">
+      <!-- Main Page -->
+      <div id="mainPage" class="fade-in">
+        <div class="text-center mb-10">
+          <div
+            style="
               display: flex;
               justify-content: center;
               align-items: center;
               margin-bottom: 15px;
-            ">
-          <div style="
+            "
+          >
+            <div
+              style="
                 width: 85px;
                 height: 85px;
                 background: #eff6ff;
@@ -145,317 +149,482 @@
                 align-items: center;
                 justify-content: center;
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-              ">
-            <i class="fas fa-book-open" style="font-size: 38px; color: #1e40af"></i>
+              "
+            >
+              <i
+                class="fas fa-book-open"
+                style="font-size: 38px; color: #1e40af"
+              ></i>
+            </div>
+          </div>
+          <h1
+            class="text-4xl font-bold text-[#1e40af] mb-1"
+            style="font-size: 2.8rem; line-height: 1.8"
+          >
+            لائبریری دارالعلوم جامعہ نعیمیہ
+          </h1>
+          <p class="text-lg text-gray-600">بلاک 15 فیڈرل بی ایریا کراچی</p>
+        </div>
+
+        <!-- Search Card -->
+        <div
+          class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 max-w-4xl mx-auto mb-10"
+        >
+          <h2 class="text-xl font-bold mb-6 text-gray-800 text-right">
+            کتابیں تلاش کریں
+          </h2>
+          <div class="flex flex-col md:flex-row gap-4 items-center">
+            <select
+              id="searchType"
+              class="border border-gray-300 p-2.5 rounded-md bg-white min-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+            >
+              <option value="title">کتاب کے نام سے</option>
+              <option value="author">مصنف کے نام سے</option>
+              <option value="publisher">پبلشر کے نام سے</option>
+            </select>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="یہاں تلاش کریں..."
+              class="border border-gray-300 p-2.5 rounded-md flex-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+            />
+            <button
+              class="btn btn-primary whitespace-nowrap"
+              onclick="searchMain()"
+            >
+              تلاش
+            </button>
           </div>
         </div>
-        <h1 class="text-4xl font-bold text-[#1e40af] mb-1" style="font-size: 2.8rem; line-height: 1.8">
-          (جو بھی مدرسے کا نام ہو)لائبریری عبدالمجید چانڈیو
-        </h1>
-        <p class="text-lg text-gray-600">جو بھی مدرسے کا ایڈریس ہو </p>
-      </div>
 
-      <!-- Search Card -->
-      <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 max-w-4xl mx-auto mb-10">
-        <h2 class="text-xl font-bold mb-6 text-gray-800 text-right">
-          کتابیں تلاش کریں
-        </h2>
-        <div class="flex flex-col md:flex-row gap-4 items-center">
-          <select id="searchType"
-            class="border border-gray-300 p-2.5 rounded-md bg-white min-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg">
-            <option value="title">کتاب کے نام سے</option>
-            <option value="author">مصنف کے نام سے</option>
-            <option value="publisher">پبلشر کے نام سے</option>
-          </select>
-          <input type="text" id="searchInput" placeholder="یہاں تلاش کریں..."
-            class="border border-gray-300 p-2.5 rounded-md flex-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg" />
-          <button class="btn btn-primary whitespace-nowrap" onclick="searchMain()">
-            تلاش
-          </button>
-        </div>
-      </div>
-
-      <!-- Stats Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <div
-          class="bg-white rounded-lg shadow-sm border-t-4 border-[#8b5cf6] p-6 text-center transition hover:shadow-md">
-          <h3 class="font-bold text-xl text-gray-700 mb-2">
-            ڈیٹا بیس کی تاریخ
-          </h3>
-          <p class="text-2xl font-bold text-[#8b5cf6]" id="statDbDate">
-            15 اگست 2023
-          </p>
-        </div>
-        <div
-          class="bg-white rounded-lg shadow-sm border-t-4 border-[#22c55e] p-6 text-center transition hover:shadow-md">
-          <h3 class="font-bold text-xl text-gray-700 mb-2">کل مصنفین</h3>
-          <p class="text-3xl font-bold text-[#22c55e] font-sans mt-2" id="statTotalAuthors">
-            0
-          </p>
-        </div>
-        <div
-          class="bg-white rounded-lg shadow-sm border-t-4 border-[#3b82f6] p-6 text-center transition hover:shadow-md">
-          <h3 class="font-bold text-xl text-gray-700 mb-2">کل کتابیں</h3>
-          <p class="text-3xl font-bold text-[#3b82f6] font-sans mt-2" id="statTotalBooks">
-            0
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Books Page -->
-    <!-- Books Page -->
-    <div id="booksPage" class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden">
-      
-      <!-- Books Page Header / Buttons (Updated) -->
-      <div class="flex flex-col md:flex-row justify-between items-center mb-6 pb-4 border-b print:hidden gap-4">
-        
-        <h2 class="text-2xl font-bold text-[#1e40af] whitespace-nowrap">
-          <i class="fas fa-book mr-2"></i> کتابوں کی فہرست
-        </h2>
-        
-        <!-- Action Buttons Group -->
-        <div class="flex flex-wrap justify-center gap-3">
-          
-          <button class="icon-btn text-green-600 text-2xl" onclick="openBookModal()" title="نئی کتاب شامل کریں">
-            <i class="fas fa-plus-circle"></i>
-          </button>
-          
-          <button class="icon-btn text-red-600 text-2xl" onclick="deleteSelectedBook()" title="منتخب کتاب حذف کریں">
-            <i class="fas fa-minus-circle"></i>
-          </button>
-          
-          <button class="icon-btn text-blue-600 text-2xl" onclick="editSelectedBook()" title="منتخب کتاب ایڈٹ کریں">
-            <i class="fas fa-play-circle"></i>
-          </button>
-          
-          <button class="icon-btn text-gray-600 text-2xl" onclick="window.print()" title="پرنٹ کریں">
-            <i class="fas fa-print"></i>
-          </button>
-          
-          <button class="icon-btn text-green-800 text-2xl" onclick="exportToExcel()" title="ایکسل میں محفوظ کریں">
-            <i class="fas fa-file-excel"></i>
-          </button>
-
-          <!-- نیا بٹن: ایکسل سے امپورٹ کریں -->
-          <button class="icon-btn text-purple-600 text-2xl" onclick="document.getElementById('importExcelFile').click()" title="ایکسل سے ڈیٹا امپورٹ کریں">
-            <i class="fas fa-file-import"></i>
-          </button>
-
-          <!-- فائل منتخب کرنے کے لیے پوشیدہ ان پٹ (Hidden Input) -->
-          <input 
-            type="file" 
-            id="importExcelFile" 
-            accept=".csv, .xls" 
-            style="display: none;" 
-            onchange="importFromExcel(event)"
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div
+            class="bg-white rounded-lg shadow-sm border-t-4 border-[#8b5cf6] p-6 text-center transition hover:shadow-md"
           >
+            <h3 class="font-bold text-xl text-gray-700 mb-2">
+              ڈیٹا بیس کی تاریخ
+            </h3>
+            <p class="text-2xl font-bold text-[#8b5cf6]" id="statDbDate">
+              15 اگست 2023
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-lg shadow-sm border-t-4 border-[#22c55e] p-6 text-center transition hover:shadow-md"
+          >
+            <h3 class="font-bold text-xl text-gray-700 mb-2">کل مصنفین</h3>
+            <p
+              class="text-3xl font-bold text-[#22c55e] font-sans mt-2"
+              id="statTotalAuthors"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-lg shadow-sm border-t-4 border-[#3b82f6] p-6 text-center transition hover:shadow-md"
+          >
+            <h3 class="font-bold text-xl text-gray-700 mb-2">کل کتابیں</h3>
+            <p
+              class="text-3xl font-bold text-[#3b82f6] font-sans mt-2"
+              id="statTotalBooks"
+            >
+              0
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="flex flex-col md:flex-row gap-6">
-        <!-- Sidebar Categories -->
-        <div class="w-full md:w-1/5 border-l border-gray-200 pl-4 print:hidden">
-          <h3 class="font-bold text-lg mb-4 text-gray-700 bg-gray-50 p-2 rounded text-center">
-            مضامین
-          </h3>
-          <ul id="categoryList" class="space-y-3 pr-2">
-            <!-- Populated by JS -->
-          </ul>
+      <!-- Books Page -->
+      <div
+        id="booksPage"
+        class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden"
+      >
+        <div
+          class="flex flex-col md:flex-row justify-between items-center mb-6 pb-4 border-b print:hidden gap-4"
+        >
+          <h2 class="text-2xl font-bold text-[#1e40af] whitespace-nowrap">
+            <i class="fas fa-book mr-2"></i> کتابوں کی فہرست
+          </h2>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button
+              class="icon-btn text-green-600 text-2xl"
+              onclick="openBookModal()"
+              title="نئی کتاب شامل کریں"
+            >
+              <i class="fas fa-plus-circle"></i>
+            </button>
+            <button
+              class="icon-btn text-red-600 text-2xl"
+              onclick="deleteSelectedBook()"
+              title="منتخب کتاب حذف کریں"
+            >
+              <i class="fas fa-minus-circle"></i>
+            </button>
+            <button
+              class="icon-btn text-blue-600 text-2xl"
+              onclick="editSelectedBook()"
+              title="منتخب کتاب ایڈٹ کریں"
+            >
+              <i class="fas fa-play-circle"></i>
+            </button>
+            <button
+              class="icon-btn text-gray-600 text-2xl"
+              onclick="window.print()"
+              title="پرنٹ کریں"
+            >
+              <i class="fas fa-print"></i>
+            </button>
+            <button
+              class="icon-btn text-green-800 text-2xl"
+              onclick="exportToExcel()"
+              title="ایکسل میں محفوظ کریں"
+            >
+              <i class="fas fa-file-excel"></i>
+            </button>
+            <button
+              class="icon-btn text-purple-600 text-2xl"
+              onclick="document.getElementById('importExcelFile').click()"
+              title="ایکسل سے ڈیٹا امپورٹ کریں"
+            >
+              <i class="fas fa-file-import"></i>
+            </button>
+            <input
+              type="file"
+              id="importExcelFile"
+              accept=".csv, .xls"
+              style="display: none"
+              onchange="importFromExcel(event)"
+            />
+          </div>
         </div>
 
-        <!-- Table -->
-        <div class="w-full md:w-4/5 overflow-x-auto bg-white rounded border">
-          <table id="booksTable" class="whitespace-nowrap">
+        <div class="flex flex-col md:flex-row gap-6">
+          <div
+            class="w-full md:w-1/5 border-l border-gray-200 pl-4 print:hidden"
+          >
+            <h3
+              class="font-bold text-lg mb-4 text-gray-700 bg-gray-50 p-2 rounded text-center"
+            >
+              مضامین
+            </h3>
+            <ul id="categoryList" class="space-y-3 pr-2"></ul>
+          </div>
+          <div class="w-full md:w-4/5 overflow-x-auto bg-white rounded border">
+            <table id="booksTable" class="whitespace-nowrap">
+              <thead>
+                <tr>
+                  <!-- پرانا کوڈ: <th class="print:hidden text-center" style="width: 50px">منتخب</th> -->
+
+                  <!-- نیا کوڈ (Select All کے ساتھ): -->
+                  <th class="print:hidden text-center" style="width: 50px">
+                    <div
+                      class="flex items-center justify-center gap-1"
+                      title="سب منتخب کریں"
+                    >
+                      <input
+                        type="checkbox"
+                        id="selectAllCheckbox"
+                        onclick="toggleSelectAll()"
+                        class="w-4 h-4 text-blue-600 cursor-pointer"
+                      />
+                    </div>
+                  </th>
+                  <th class="text-center">نمبر شمار</th>
+                  <th>کتاب کا نام</th>
+                  <th>مصنف</th>
+                  <th>پبلشر</th>
+                  <th class="text-center">تمام جلدیں</th>
+                  <th class="text-center">مفقود جلدیں</th>
+                  <th class="text-center">الماری نمبر</th>
+                </tr>
+              </thead>
+              <tbody id="booksTableBody"></tbody>
+            </table>
+            <div
+              class="p-4 bg-gray-50 flex justify-between text-gray-600 border-t"
+            >
+              <span class="font-bold"
+                >کل کتابیں:
+                <span id="footerTotalBooks" class="font-sans ml-1"
+                  >0</span
+                ></span
+              >
+              <span>موجودہ پیج: 1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issued Books Page -->
+      <div
+        id="issuedPage"
+        class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden"
+      >
+        <div
+          class="flex justify-between items-center mb-6 pb-4 border-b print:hidden"
+        >
+          <h2 class="text-2xl font-bold text-[#1e40af]">
+            <i class="fas fa-hand-holding mr-2"></i> کتابوں کا اجراء
+          </h2>
+          <button class="btn btn-primary" onclick="openIssueModal()">
+            نئی کتاب جاری کریں
+          </button>
+        </div>
+        <div class="overflow-x-auto border rounded">
+          <table class="whitespace-nowrap">
             <thead>
               <tr>
-                <th class="print:hidden text-center" style="width: 50px">
-                  منتخب
-                </th>
-                <th class="text-center">نمبر شمار</th>
+                <th>نام (استاد/طالب علم)</th>
                 <th>کتاب کا نام</th>
-                <th>مصنف</th>
-                <th>پبلشر</th>
-                <th class="text-center">تمام جلدیں</th>
-                <th class="text-center">مفقود جلدیں</th>
-                <th class="text-center">الماری نمبر</th>
+                <th class="text-center">تاریخ اجراء</th>
+                <th class="text-center">واپسی کی تاریخ</th>
+                <th class="text-center">اسٹیٹس</th>
               </tr>
             </thead>
-            <tbody id="booksTableBody">
-              <!-- Rows via JS -->
-            </tbody>
+            <tbody id="issuedTableBody"></tbody>
           </table>
-          <div class="p-4 bg-gray-50 flex justify-between text-gray-600 border-t">
-            <span class="font-bold">کل کتابیں:
-              <span id="footerTotalBooks" class="font-sans ml-1">0</span></span>
-            <span>موجودہ پیج: 1</span>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Issued Books Page -->
-    <div id="issuedPage" class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden">
-      <div class="flex justify-between items-center mb-6 pb-4 border-b print:hidden">
-        <h2 class="text-2xl font-bold text-[#1e40af]">
-          <i class="fas fa-hand-holding mr-2"></i> کتابوں کا اجراء
-        </h2>
-        <button class="btn btn-primary" onclick="openIssueModal()">
-          نئی کتاب جاری کریں
+    <!-- Modals -->
+
+    <!-- Add Book Modal -->
+    <div
+      id="bookModal"
+      class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 print:hidden p-4"
+    >
+      <div
+        class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative"
+      >
+        <button
+          onclick="closeBookModal()"
+          class="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-2xl"
+        >
+          <i class="fas fa-times"></i>
         </button>
+        <h2
+          class="text-3xl font-bold mb-6 text-[#1e40af] border-b pb-3"
+          id="bookModalTitle"
+        >
+          نئی کتاب شامل کریں
+        </h2>
+        <form id="bookForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <input type="hidden" id="bookId" />
+          <div class="col-span-1 md:col-span-2">
+            <label class="block mb-2 font-bold text-gray-700"
+              >کتاب کا نام <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="bTitle"
+              required
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="col-span-1 md:col-span-2">
+            <label class="block mb-2 font-bold text-gray-700"
+              >مصنف کا نام <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="bAuthor"
+              required
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700">کل جلدیں</label>
+            <input
+              type="number"
+              id="bVols"
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700">مسنگ جلدیں</label>
+            <input
+              type="text"
+              id="bMissingVols"
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >پبلشر کا نام</label
+            >
+            <input
+              type="text"
+              id="bPublisher"
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >الماری نمبر</label
+            >
+            <input
+              type="text"
+              id="bShelf"
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded border">
+            <label class="block mb-2 font-bold text-gray-700"
+              >مضامین / موضوع</label
+            >
+            <select
+              id="bCategorySelect"
+              class="w-full border p-2.5 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onchange="checkCustomCategory()"
+            >
+              <option value="تفسیر">تفسیر</option>
+              <option value="حدیث">حدیث</option>
+              <option value="فقہ">فقہ</option>
+              <option value="other">نیا مضمون شامل کریں شامل کریں...</option>
+            </select>
+            <input
+              type="text"
+              id="bCategoryInput"
+              placeholder="یہاں نئے مضمون کا نام لکھیں"
+              class="w-full border p-2.5 rounded hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div
+            class="col-span-1 md:col-span-2 flex justify-end gap-3 mt-4 pt-4 border-t"
+          >
+            <button
+              type="button"
+              class="btn bg-gray-300 text-gray-800 hover:bg-gray-400"
+              onclick="closeBookModal()"
+            >
+              منسوخ کریں
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="saveBookData()"
+            >
+              محفوظ کریں
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
 
-      <div class="overflow-x-auto border rounded">
-        <table class="whitespace-nowrap">
-          <thead>
-            <tr>
-              <th>نام (استاد/طالب علم)</th>
-              <!-- <th>کلاس کا نام</th> -->
-              <th>کتاب کا نام</th>
-              <th class="text-center">تاریخ اجراء</th>
-              <th class="text-center">واپسی کی تاریخ</th>
-              <th class="text-center">اسٹیٹس</th>
-            </tr>
-          </thead>
-          <tbody id="issuedTableBody">
-            <!-- Rows via JS -->
-          </tbody>
-        </table>
+    <!-- Issue Book Modal -->
+    <div
+      id="issueModal"
+      class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 print:hidden p-4"
+    >
+      <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md relative">
+        <button
+          onclick="closeIssueModal()"
+          class="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-2xl"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+        <h2 class="text-3xl font-bold mb-6 text-[#1e40af] border-b pb-3">
+          کتاب جاری کریں
+        </h2>
+        <form id="issueForm" class="flex flex-col gap-4">
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >نام (استاد / طالب علم) <span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="iName"
+              required
+              class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >کتاب تلاش کر کے منتخب کریں
+              <span class="text-red-500">*</span></label
+            >
+            <div class="relative">
+              <!-- سرچ ان پٹ -->
+              <input
+                type="text"
+                id="iBookSearch"
+                placeholder="یہاں کتاب کا نام لکھیں..."
+                class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onkeyup="filterIssueBooks()"
+                autocomplete="off"
+              />
+
+              <!-- پوشیدہ ان پٹ (جو کتاب کا آئی ڈی محفوظ کرے گا) -->
+              <input type="hidden" id="iBookId" required />
+
+              <!-- ڈراپ ڈاؤن لسٹ (یہ شروع میں غائب رہے گی) -->
+              <ul
+                id="iBookList"
+                class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto hidden"
+              ></ul>
+            </div>
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >تاریخ اجراء <span class="text-red-500">*</span></label
+            >
+            <input
+              type="date"
+              id="iIssueDate"
+              required
+              class="w-full border p-2.5 rounded font-sans focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
+              >واپسی کی تاریخ <span class="text-red-500">*</span></label
+            >
+            <input
+              type="date"
+              id="iReturnDate"
+              required
+              class="w-full border p-2.5 rounded font-sans focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="flex justify-end gap-3 mt-4 pt-4 border-t">
+            <button
+              type="button"
+              class="btn bg-gray-300 text-gray-800 hover:bg-gray-400"
+              onclick="closeIssueModal()"
+            >
+              منسوخ
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="saveIssueData()"
+            >
+              محفوظ کریں
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
 
-  <!-- Modals -->
-  <!-- Add Book Modal -->
-  <div id="bookModal"
-    class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 print:hidden p-4">
-    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-      <button onclick="closeBookModal()" class="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-2xl">
-        <i class="fas fa-times"></i>
-      </button>
-      <h2 class="text-3xl font-bold mb-6 text-[#1e40af] border-b pb-3" id="bookModalTitle">
-        نئی کتاب شامل کریں
-      </h2>
-      <form id="bookForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <input type="hidden" id="bookId" />
-        <div class="col-span-1 md:col-span-2">
-          <label class="block mb-2 font-bold text-gray-700">کتاب کا نام <span class="text-red-500">*</span></label>
-          <input type="text" id="bTitle" required
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div class="col-span-1 md:col-span-2">
-          <label class="block mb-2 font-bold text-gray-700">مصنف کا نام <span class="text-red-500">*</span></label>
-          <input type="text" id="bAuthor" required
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">کل جلدیں</label>
-          <input type="number" id="bVols"
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">مسنگ جلدیں</label>
-          <input type="text" id="bMissingVols"
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">پبلشر کا نام</label>
-          <input type="text" id="bPublisher"
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">الماری نمبر</label>
-          <input type="text" id="bShelf"
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div class="col-span-1 md:col-span-2 bg-gray-50 p-4 rounded border">
-          <label class="block mb-2 font-bold text-gray-700">مضامین / موضوع</label>
-          <select id="bCategorySelect"
-            class="w-full border p-2.5 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onchange="checkCustomCategory()">
-            <option value="تفسیر">تفسیر</option>
-            <option value="حدیث">حدیث</option>
-            <option value="فقہ">فقہ</option>
-            <option value="other">نیا مضمون شامل کریں شامل کریں...</option>
-          </select>
-          <input type="text" id="bCategoryInput" placeholder="یہاں نئے مضمون کا نام لکھیں"
-            class="w-full border p-2.5 rounded hidden focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div class="col-span-1 md:col-span-2">
-          <label class="block mb-2 font-bold text-gray-700">کتاب کی تصویر (اختیاری)</label>
-          <input type="file" id="bImage" accept="image/png, image/jpeg" class="w-full border p-2.5 rounded bg-white" />
-        </div>
+    <!-- Footer -->
+    <footer
+      class="bg-[#1f2937] text-white text-center p-5 mt-auto print:hidden"
+    >
+      <p>
+        <a
+          href="https://github.com/amctech106"
+          target="_blank"
+          class="hover:text-gray-300 transition flex items-center justify-center gap-2 text-lg"
+        >
+          <i class="fab fa-github text-2xl"></i> عبدالمجید چانڈیو
+        </a>
+      </p>
+    </footer>
 
-        <div class="col-span-1 md:col-span-2 flex justify-end gap-3 mt-4 pt-4 border-t">
-          <button type="button" class="btn bg-gray-300 text-gray-800 hover:bg-gray-400" onclick="closeBookModal()">
-            منسوخ کریں
-          </button>
-          <button type="button" class="btn btn-success" onclick="saveBookData()">
-            محفوظ کریں
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Issue Book Modal -->
-  <div id="issueModal"
-    class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 print:hidden p-4">
-    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md relative">
-      <button onclick="closeIssueModal()" class="absolute top-4 left-4 text-gray-500 hover:text-red-500 text-2xl">
-        <i class="fas fa-times"></i>
-      </button>
-      <h2 class="text-3xl font-bold mb-6 text-[#1e40af] border-b pb-3">
-        کتاب جاری کریں
-      </h2>
-      <form id="issueForm" class="flex flex-col gap-4">
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">نام (استاد / طالب علم) <span
-              class="text-red-500">*</span></label>
-          <input type="text" id="iName" required
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">کتاب منتخب کریں <span class="text-red-500">*</span></label>
-          <select id="iBookId"
-            class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></select>
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">تاریخ اجراء <span class="text-red-500">*</span></label>
-          <input type="date" id="iIssueDate" required
-            class="w-full border p-2.5 rounded font-sans focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div>
-          <label class="block mb-2 font-bold text-gray-700">واپسی کی تاریخ <span class="text-red-500">*</span></label>
-          <input type="date" id="iReturnDate" required
-            class="w-full border p-2.5 rounded font-sans focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
-        <div class="flex justify-end gap-3 mt-4 pt-4 border-t">
-          <button type="button" class="btn bg-gray-300 text-gray-800 hover:bg-gray-400" onclick="closeIssueModal()">
-            منسوخ
-          </button>
-          <button type="button" class="btn btn-success" onclick="saveIssueData()">
-            محفوظ کریں
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-[#1f2937] text-white text-center p-5 mt-auto print:hidden">
-    <p>
-      <a href="https://github.com/amctech106" target="_blank"
-        class="hover:text-gray-300 transition flex items-center justify-center gap-2 text-lg">
-        <i class="fab fa-github text-2xl"></i> عبدالمجید چانڈیو
-      </a>
-    </p>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="books_data.js"></script>
-  <script src="issued_data.js"></script>
-  <script src="app.js"></script>
-</body>
-
+    <!-- Scripts -->
+    <script src="books_data.js"></script>
+    <script src="issued_data.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
