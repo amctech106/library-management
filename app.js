@@ -164,6 +164,7 @@ function filterByCategory(cat) {
 // Modal Actions
 function openBookModal(isEdit = false) {
     document.getElementById("bookModal").classList.remove("hidden");
+    populateCategoryDropdown(); // Ensure dropdown is populated before opening
     if (!isEdit) {
         document.getElementById("bookForm").reset();
         document.getElementById("bookId").value = "";
@@ -248,6 +249,7 @@ function deleteSelectedBook() {
     }
 }
 
+// کتاب ایڈٹ کرنے والا فنکشن
 function editSelectedBook() {
     const ids = getSelectedBookIds();
     if (ids.length === 0) {
@@ -262,6 +264,9 @@ function editSelectedBook() {
     const id = ids[0];
     const book = books.find((b) => b.id === id);
     if (book) {
+        // سب سے پہلے موڈل کھولیں اور کیٹیگری کی لسٹ کو اپڈیٹ کریں
+        openBookModal(true);
+
         document.getElementById("bookId").value = book.id;
         document.getElementById("bTitle").value = book.title;
         document.getElementById("bAuthor").value = book.author;
@@ -284,7 +289,6 @@ function editSelectedBook() {
         }
 
         document.getElementById("bookModalTitle").innerText = "کتاب ایڈٹ کریں";
-        openBookModal(true);
     }
 }
 
@@ -311,50 +315,83 @@ function renderIssuedBooks() {
     });
 }
 
-// موڈل اوپن کرنے کا فنکشن (Duplicate removed)
-function openIssueModal() {
-    document.getElementById('issueForm').reset();
-    document.getElementById('iBookSearch').value = '';
-    document.getElementById('iBookId').value = '';
-    document.getElementById('iBookList').classList.add('hidden'); // فہرست چھپا دیں
-    document.getElementById('issueModal').classList.remove('hidden');
+// موجودہ کیٹیگریز کو فارم کے ڈراپ ڈاؤن میں دکھانے کے لیے
+function populateCategoryDropdown() {
+    const select = document.getElementById("bCategorySelect");
+    if(!select) return; 
+    
+    const categories = [...new Set(books.map((b) => b.subject))];
+    
+    select.innerHTML = '';
+    
+    categories.forEach(cat => {
+        if (cat) { 
+            const option = document.createElement("option");
+            option.value = cat;
+            option.innerText = cat;
+            select.appendChild(option);
+        }
+    });
+    
+    const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.innerText = "نیا مضمون شامل کریں...";
+    select.appendChild(otherOption);
 }
 
-// ٹائپ کرتے وقت کتابیں فلٹر کرنے کا فنکشن 
-function filterIssueBooks() {
-    const term = document.getElementById('iBookSearch').value.toLowerCase();
-    const list = document.getElementById('iBookList');
-    list.innerHTML = '';
+// موڈل اوپن کرنے کا فنکشن (Safe Version)
+function openIssueModal() {
+    const form = document.getElementById('issueForm');
+    if(form) form.reset();
+    
+    const searchInput = document.getElementById('iBookSearch');
+    if(searchInput) searchInput.value = '';
+    
+    const bookIdInput = document.getElementById('iBookId');
+    if(bookIdInput) bookIdInput.value = '';
+    
+    const bookList = document.getElementById('iBookList');
+    if(bookList) bookList.classList.add('hidden'); 
+    
+    const modal = document.getElementById('issueModal');
+    if(modal) modal.classList.remove('hidden');
+}
 
-    // اگر سرچ بار خالی ہے تو فہرست چھپا دیں
-    if (!term) {
-        list.classList.add('hidden');
+
+// نیا فنکشن: ایشو موڈل میں کتاب سرچ کرنے کے لیے 
+function searchIssueBook() {
+    const searchTerm = document.getElementById('iBookSearch').value.toLowerCase();
+    const bookList = document.getElementById('iBookList');
+
+    if (!searchTerm) {
+        bookList.classList.add('hidden');
+        bookList.innerHTML = '';
         return;
     }
 
-    const filtered = books.filter(b => b.title.toLowerCase().includes(term));
+    const matchedBooks = books.filter(b => b.title.toLowerCase().includes(searchTerm));
 
-    if (filtered.length === 0) {
-        list.innerHTML = `<li class="p-3 text-red-500 text-center font-bold">کوئی کتاب نہیں ملی</li>`;
-        list.classList.remove('hidden');
+    bookList.innerHTML = '';
+    if (matchedBooks.length === 0) {
+        bookList.innerHTML = '<div class="p-2 text-red-500 text-sm">کوئی کتاب نہیں ملی</div>';
     } else {
-        filtered.forEach(b => {
-            // کتاب پر کلک کرنے کے لیے نیا فنکشن لگایا ہے
-            list.innerHTML += `<li class="p-3 cursor-pointer hover:bg-blue-100 border-b text-gray-800 transition" 
-                                   onclick="selectIssueBook(${b.id}, '${b.title.replace(/'/g, "\\'")}')">
-                                   <span class="font-bold">${b.title}</span> 
-                                   <span class="text-sm text-gray-500">(${b.author})</span>
-                               </li>`;
+        matchedBooks.forEach(book => {
+            const div = document.createElement('div');
+            div.className = 'p-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 text-sm';
+            div.innerText = `${book.title} - (${book.author})`; 
+            div.onclick = () => selectIssueBook(book.id, book.title);
+            bookList.appendChild(div);
         });
-        list.classList.remove('hidden'); // میچ ہونے پر فہرست دکھائیں
     }
+    bookList.classList.remove('hidden');
 }
 
-// نیا فنکشن: کتاب پر کلک کر کے اسے سلیکٹ کرنے کے لیے
+
+// کتاب پر کلک کر کے اسے سلیکٹ کرنے کے لیے
 function selectIssueBook(id, title) {
-    document.getElementById('iBookId').value = id; // ڈیٹا بیس کے لیے آئی ڈی محفوظ کریں
-    document.getElementById('iBookSearch').value = title; // سرچ بار میں نام لکھ دیں
-    document.getElementById('iBookList').classList.add('hidden'); // کام مکمل ہونے پر فہرست دوبارہ چھپا دیں
+    document.getElementById('iBookId').value = id; 
+    document.getElementById('iBookSearch').value = title; 
+    document.getElementById('iBookList').classList.add('hidden'); 
 }
 
 // کتاب جاری کرنے والا موڈل بند کرنے کا فنکشن
@@ -420,6 +457,40 @@ function exportToExcel() {
     const link = document.createElement("a");
     link.setAttribute("href", url);
     link.setAttribute("download", "library_books.xls");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// نیا فنکشن: جاری کردہ کتابوں کو ایکسل میں ایکسپورٹ کرنے کے لیے
+function exportIssuedToExcel() {
+    if (issuedBooks.length === 0) {
+        alert("ایکسپورٹ کرنے کے لیے کوئی ڈیٹا نہیں ہے۔");
+        return;
+    }
+
+    let html = '<html dir="rtl" lang="ur"><head><meta charset="utf-8"></head><body><table border="1">';
+    html += "<tr><th>سیریل نمبر</th><th>نام</th><th>کتاب کا نام</th><th>جاری کرنے کی تاریخ</th><th>واپسی کی تاریخ</th></tr>";
+
+    issuedBooks.forEach((issue, i) => {
+        const book = books.find((b) => b.id == issue.bookId);
+        const bookName = book ? book.title : "نامعلوم کتاب";
+
+        html += `<tr>
+            <td>${i + 1}</td>
+            <td>${issue.name}</td>
+            <td>${bookName}</td>
+            <td>${issue.issueDate}</td>
+            <td>${issue.returnDate}</td>
+        </tr>`;
+    });
+    html += "</table></body></html>";
+
+    const blob = new Blob([html], { type: "application/vnd.ms-excel;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "issued_books.xls"); 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

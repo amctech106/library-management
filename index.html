@@ -313,9 +313,6 @@
             <table id="booksTable" class="whitespace-nowrap">
               <thead>
                 <tr>
-                  <!-- پرانا کوڈ: <th class="print:hidden text-center" style="width: 50px">منتخب</th> -->
-
-                  <!-- نیا کوڈ (Select All کے ساتھ): -->
                   <th class="print:hidden text-center" style="width: 50px">
                     <div
                       class="flex items-center justify-center gap-1"
@@ -356,20 +353,28 @@
       </div>
 
       <!-- Issued Books Page -->
-      <div
-        id="issuedPage"
-        class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden"
-      >
-        <div
-          class="flex justify-between items-center mb-6 pb-4 border-b print:hidden"
-        >
+      <div id="issuedPage" class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hidden">
+        
+        <!-- ہیڈر اور بٹنز -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 pb-4 border-b print:hidden gap-4">
           <h2 class="text-2xl font-bold text-[#1e40af]">
             <i class="fas fa-hand-holding mr-2"></i> کتابوں کا اجراء
           </h2>
-          <button class="btn btn-primary" onclick="openIssueModal()">
-            نئی کتاب جاری کریں
-          </button>
+          <div class="flex items-center gap-3">
+            <button class="icon-btn text-green-800 text-2xl" onclick="exportIssuedToExcel()" title="اجراء کا ریکارڈ ایکسل میں محفوظ کریں">
+              <i class="fas fa-file-excel"></i>
+            </button>
+            <button class="icon-btn text-purple-600 text-2xl" onclick="document.getElementById('importIssuedFile').click()" title="ایکسل سے اجراء کا ریکارڈ امپورٹ کریں">
+              <i class="fas fa-file-import"></i>
+            </button>
+            <input type="file" id="importIssuedFile" accept=".csv, .xls" style="display: none" />
+            
+            <!-- نئی کتاب جاری کریں کا بٹن -->
+            <button class="btn btn-primary" onclick="openIssueModal()">نئی کتاب جاری کریں</button>
+          </div>
         </div>
+
+        <!-- جاری شدہ کتابوں کا ٹیبل -->
         <div class="overflow-x-auto border rounded">
           <table class="whitespace-nowrap">
             <thead>
@@ -545,24 +550,24 @@
               <span class="text-red-500">*</span></label
             >
             <div class="relative">
-              <!-- سرچ ان پٹ -->
+              <!-- سرچ ان پٹ (درست کر دیا گیا ہے) -->
               <input
                 type="text"
                 id="iBookSearch"
                 placeholder="یہاں کتاب کا نام لکھیں..."
                 class="w-full border p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onkeyup="filterIssueBooks()"
+                oninput="searchIssueBook()"
                 autocomplete="off"
               />
 
               <!-- پوشیدہ ان پٹ (جو کتاب کا آئی ڈی محفوظ کرے گا) -->
               <input type="hidden" id="iBookId" required />
 
-              <!-- ڈراپ ڈاؤن لسٹ (یہ شروع میں غائب رہے گی) -->
-              <ul
+              <!-- ڈراپ ڈاؤن لسٹ -->
+              <div
                 id="iBookList"
                 class="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-lg max-h-48 overflow-y-auto hidden"
-              ></ul>
+              ></div>
             </div>
           </div>
           <div>
