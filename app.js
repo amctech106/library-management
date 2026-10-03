@@ -161,6 +161,29 @@ function filterByCategory(cat) {
     renderBooks();
 }
 
+// موجودہ کیٹیگریز کو فارم کے ڈراپ ڈاؤن میں دکھانے کے لیے
+function populateCategoryDropdown() {
+    const select = document.getElementById("bCategorySelect");
+    if(!select) return; 
+    
+    const categories = [...new Set(books.map((b) => b.subject))];
+    select.innerHTML = '';
+    
+    categories.forEach(cat => {
+        if (cat) { 
+            const option = document.createElement("option");
+            option.value = cat;
+            option.innerText = cat;
+            select.appendChild(option);
+        }
+    });
+    
+    const otherOption = document.createElement("option");
+    otherOption.value = "other";
+    otherOption.innerText = "نیا مضمون شامل کریں...";
+    select.appendChild(otherOption);
+}
+
 // Modal Actions
 function openBookModal(isEdit = false) {
     document.getElementById("bookModal").classList.remove("hidden");
@@ -249,7 +272,6 @@ function deleteSelectedBook() {
     }
 }
 
-// کتاب ایڈٹ کرنے والا فنکشن
 function editSelectedBook() {
     const ids = getSelectedBookIds();
     if (ids.length === 0) {
@@ -292,7 +314,7 @@ function editSelectedBook() {
     }
 }
 
-// Issue Book
+// Issue Book rendering
 function renderIssuedBooks() {
     const tbody = document.getElementById("issuedTableBody");
     tbody.innerHTML = "";
@@ -313,30 +335,6 @@ function renderIssuedBooks() {
         `;
         tbody.appendChild(tr);
     });
-}
-
-// موجودہ کیٹیگریز کو فارم کے ڈراپ ڈاؤن میں دکھانے کے لیے
-function populateCategoryDropdown() {
-    const select = document.getElementById("bCategorySelect");
-    if(!select) return; 
-    
-    const categories = [...new Set(books.map((b) => b.subject))];
-    
-    select.innerHTML = '';
-    
-    categories.forEach(cat => {
-        if (cat) { 
-            const option = document.createElement("option");
-            option.value = cat;
-            option.innerText = cat;
-            select.appendChild(option);
-        }
-    });
-    
-    const otherOption = document.createElement("option");
-    otherOption.value = "other";
-    otherOption.innerText = "نیا مضمون شامل کریں...";
-    select.appendChild(otherOption);
 }
 
 // موڈل اوپن کرنے کا فنکشن (Safe Version)
@@ -386,7 +384,6 @@ function searchIssueBook() {
     bookList.classList.remove('hidden');
 }
 
-
 // کتاب پر کلک کر کے اسے سلیکٹ کرنے کے لیے
 function selectIssueBook(id, title) {
     document.getElementById('iBookId').value = id; 
@@ -428,7 +425,7 @@ function returnBook(id) {
     }
 }
 
-// Export Excel (اپڈیٹ شدہ برائے Right-to-Left)
+// Export Excel (کتابوں کے لیے)
 function exportToExcel() {
     if (books.length === 0) {
         alert("ایکسپورٹ کرنے کے لیے کوئی ڈیٹا نہیں ہے۔");
@@ -496,7 +493,7 @@ function exportIssuedToExcel() {
     document.body.removeChild(link);
 }
 
-// ایکسل سے امپورٹ کریں (سمارٹ کالم میپنگ کے ساتھ)
+// ایکسل سے امپورٹ کریں (کتابوں کے لیے)
 function importFromExcel(event) {
     const file = event.target.files[0];
     if(!file) return;
@@ -600,7 +597,121 @@ function importFromExcel(event) {
     reader.readAsText(file);
 }
 
-// Search (Updated with Checkboxes)
+// نیا فنکشن: جاری شدہ کتابوں کو ایکسل سے امپورٹ کرنے کے لیے
+function importIssuedFromExcel(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        let newIssued = [];
+        
+        // اگر فائل HTML Table فارمیٹ میں ہے (جیسا کہ ہم ایکسپورٹ کرتے ہیں)
+        if(text.includes('<table')) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const rows = doc.querySelectorAll('tr');
+            
+            rows.forEach((row, i) => {
+                if(i === 0) return; // پہلی لائن (ہیڈنگ) کو چھوڑ دیں
+                const cols = row.querySelectorAll('td, th');
+                if(cols.length >= 5) {
+                    const personName = cols[1] ? cols[1].innerText.trim() : '';
+                    const bookTitle = cols[2] ? cols[2].innerText.trim() : '';
+                    const issueDate = cols[3] ? cols[3].innerText.trim() : '';
+                    const returnDate = cols[4] ? cols[4].innerText.trim() : '';
+                    
+                    // کتاب کے نام سے اس کا ID تلاش کریں
+                    const matchedBook = books.find(b => b.title === bookTitle);
+                    const bookId = matchedBook ? matchedBook.id : Date.now() + i;
+
+                    if (personName && bookTitle) {
+                        newIssued.push({
+                            id: Date.now() + i + 1000, 
+                            name: personName,
+                            bookId: bookId,
+                            issueDate: issueDate,
+                            returnDate: returnDate
+                        });
+                    }
+                }
+            });
+        } 
+        // اگر فائل CSV فارمیٹ میں ہے
+        else {
+            const rows = text.split('\n');
+            if(rows.length < 2) {
+                alert("فائل میں کوئی ڈیٹا نہیں ہے۔");
+                return;
+            }
+
+            let colMap = { name: 1, bookTitle: 2, issueDate: 3, returnDate: 4 };
+            const headerRow = rows[0].split(',');
+            for(let c = 0; c < headerRow.length; c++) {
+                let h = headerRow[c].replace(/(^"|"$)/g, '').trim();
+                if(h.includes('نام') && !h.includes('کتاب')) colMap.name = c;
+                else if(h.includes('کتاب')) colMap.bookTitle = c;
+                else if(h.includes('جاری') || h.includes('اجراء')) colMap.issueDate = c;
+                else if(h.includes('واپسی')) colMap.returnDate = c;
+            }
+
+            for(let i = 1; i < rows.length; i++) {
+                if(!rows[i].trim()) continue;
+                const row = rows[i];
+                let cols_arr = [];
+                let inQuotes = false;
+                let col = '';
+                
+                for(let j = 0; j < row.length; j++) {
+                    if(row[j] === '"') inQuotes = !inQuotes;
+                    else if(row[j] === ',' && !inQuotes) {
+                        cols_arr.push(col);
+                        col = '';
+                    } else {
+                        col += row[j];
+                    }
+                }
+                cols_arr.push(col);
+
+                const personName = cols_arr[colMap.name] ? cols_arr[colMap.name].replace(/(^"|"$)/g, '').trim() : '';
+                const bookTitle = cols_arr[colMap.bookTitle] ? cols_arr[colMap.bookTitle].replace(/(^"|"$)/g, '').trim() : '';
+                const issueDate = cols_arr[colMap.issueDate] ? cols_arr[colMap.issueDate].replace(/(^"|"$)/g, '').trim() : '';
+                const returnDate = cols_arr[colMap.returnDate] ? cols_arr[colMap.returnDate].replace(/(^"|"$)/g, '').trim() : '';
+
+                const matchedBook = books.find(b => b.title === bookTitle);
+                const bookId = matchedBook ? matchedBook.id : Date.now() + i;
+
+                if (personName && bookTitle) {
+                    newIssued.push({
+                        id: Date.now() + i + 1000,
+                        name: personName,
+                        bookId: bookId,
+                        issueDate: issueDate,
+                        returnDate: returnDate
+                    });
+                }
+            }
+        }
+        
+        if(newIssued.length > 0) {
+            if(confirm(`فائل میں ${newIssued.length} جاری شدہ کتابوں کا ریکارڈ ملا ہے۔\n\nکیا آپ موجودہ ریکارڈ کو مٹا کر صرف یہ نیا ڈیٹا امپورٹ کرنا چاہتے ہیں؟\n\n(OK = پرانا ڈیٹا ڈیلیٹ ہو جائے گا، Cancel = نیا ڈیٹا پرانے ریکارڈ میں جمع ہو جائے گا)`)) {
+                issuedBooks = newIssued;
+            } else {
+                issuedBooks = [...issuedBooks, ...newIssued];
+            }
+            saveIssuedToLocalStorage();
+            renderIssuedBooks();
+            alert("ڈیٹا کامیابی سے امپورٹ ہو گیا!");
+        } else {
+            alert("فائل میں کوئی درست ڈیٹا نہیں ملا۔");
+        }
+        event.target.value = ''; // تاکہ دوبارہ وہی فائل سلیکٹ کی جا سکے
+    };
+    reader.readAsText(file);
+}
+
+// Search Main (For Books List)
 function searchMain() {
     const type = document.getElementById("searchType").value;
     const term = document.getElementById("searchInput").value.toLowerCase();

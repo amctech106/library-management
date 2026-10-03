@@ -367,7 +367,7 @@
             <button class="icon-btn text-purple-600 text-2xl" onclick="document.getElementById('importIssuedFile').click()" title="ایکسل سے اجراء کا ریکارڈ امپورٹ کریں">
               <i class="fas fa-file-import"></i>
             </button>
-            <input type="file" id="importIssuedFile" accept=".csv, .xls" style="display: none" />
+           <input type="file" id="importIssuedFile" accept=".csv, .xls" style="display: none" onchange="importIssuedFromExcel(event)" />
             
             <!-- نئی کتاب جاری کریں کا بٹن -->
             <button class="btn btn-primary" onclick="openIssueModal()">نئی کتاب جاری کریں</button>
