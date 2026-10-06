@@ -2,13 +2,12 @@
 const defaultBooks = [
     {
         id: 1,
-        title: "معجم احادیث ضعف الرجال",
-        author: "الاستاذ یوسف الشیخ محمد البقاعی",
-        vols: "1",
+        title: "الاتقان فی علوم القرآن اردو",
+        author: "علامہ جلال الدین سیوطی",
+        vols: 2,
         missingVols: "-",
-        publisher: "المکتبۃ الاثریہ",
-        subject: "اسماء الرجال",
-        shelfNo: "-"
+        publisher: "دارالکتب العلمیہ",
+        subject: "تفسیر",
+        shelfNo: "26A"
     }
-    
 ];

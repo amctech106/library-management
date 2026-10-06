@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>لائبریری</title>
+    <title id="pageTitle">لائبریری</title>
     <link rel="stylesheet" href="assets/tailwind.css" />
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <style>
@@ -163,6 +163,7 @@
             "
           >
             <div
+              id="instLogo"
               style="
                 width: 85px;
                 height: 85px;
@@ -182,12 +183,13 @@
             </div>
           </div>
           <h1
+            id="instName"
             class="text-4xl font-bold text-[#1e40af] mb-1"
             style="font-size: 2.8rem; line-height: 1.8"
           >
-            لائبریری دارالعلوم جامعہ جو بھی ہو
+            لائبریری دارالعلوم جامعہ نعیمیہ
           </h1>
-          <p class="text-lg text-gray-600">بلاک ۔۔۔ علاقہ۔۔۔ ایریا کراچی</p>
+          <p id="instAddress" class="text-lg text-gray-600">بلاک 15 فیڈرل بی ایریا کراچی</p>
         </div>
 
         <!-- Search Card -->
@@ -652,6 +654,31 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="config.js"></script>
+    <script>
+      (function () {
+        var c = typeof INSTITUTION !== "undefined" ? INSTITUTION : {};
+        if (c.name) {
+          document.getElementById("instName").textContent = c.name;
+          document.getElementById("pageTitle").textContent = c.name;
+        }
+        var a = document.getElementById("instAddress");
+        if (c.address) a.textContent = c.address;
+        else a.style.display = "none";
+        if (c.logo) {
+          var box = document.getElementById("instLogo");
+          box.removeAttribute("style");
+          box.style.cssText = "display:flex;align-items:center;justify-content:center";
+          var img = document.createElement("img");
+          img.src = c.logo;
+          img.alt = c.name || "";
+          img.style.cssText = "max-height:110px;max-width:260px;object-fit:contain";
+          img.onerror = function () { box.style.display = "none"; };
+          box.innerHTML = "";
+          box.appendChild(img);
+        }
+      })();
+    </script>
     <script src="books_data.js"></script>
     <script src="issued_data.js"></script>
     <script src="app.js"></script>
