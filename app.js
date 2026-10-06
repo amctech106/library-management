@@ -11,26 +11,37 @@ function initApp() {
     setInterval(updateDateTime, 1000);
 
     // Load from LocalStorage or use default files
-    const storedBooks = localStorage.getItem("library_books");
-    if (storedBooks) {
-        books = JSON.parse(storedBooks);
-    } else {
-        if(typeof defaultBooks !== 'undefined') books = defaultBooks; // from books_data.js
-        saveToLocalStorage();
-    }
 
-    const storedIssued = localStorage.getItem("library_issued");
-    if (storedIssued) {
-        issuedBooks = JSON.parse(storedIssued);
-    } else {
-        if(typeof defaultIssued !== 'undefined') issuedBooks = defaultIssued; // from issued_data.js
-        saveIssuedToLocalStorage();
-    }
+// Load books from books_data.js
 
-    renderBooks();
-    renderIssuedBooks();
-    updateStats();
+// Load books from books_data.js
+// Load books from books_data.js
+if (typeof defaultBooks !== "undefined" && Array.isArray(defaultBooks)) {
+    books = defaultBooks;
+} else {
+    console.error("defaultBooks نہیں ملا۔ books_data.js صحیح طرح load نہیں ہوئی۔");
+    books = [];
 }
+
+// Load issued books from LocalStorage
+const storedIssued = localStorage.getItem("library_issued");
+
+if (storedIssued) {
+    issuedBooks = JSON.parse(storedIssued);
+} else {
+    if (typeof defaultIssued !== 'undefined') {
+        issuedBooks = defaultIssued;
+    }
+
+    saveIssuedToLocalStorage();
+}
+
+renderBooks();
+renderIssuedBooks();
+updateStats();
+
+}
+
 
 // Navigation
 function showPage(pageId) {
