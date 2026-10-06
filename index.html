@@ -161,6 +161,27 @@
       ></div>
       <div class="flex items-center ml-4">
         <button
+          id="syncBtn"
+          onclick="DataStore.link()"
+          class="nav-icon flex items-center gap-2"
+          title="ایپ کا فولڈر جوڑیں تاکہ ڈیٹا فائلوں میں محفوظ ہو"
+          style="font-size: 0.85rem"
+        >
+          <span
+            id="syncDot"
+            style="width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; display: inline-block"
+          ></span>
+          <i class="fas fa-database"></i>
+          <span id="syncText">...</span>
+        </button>
+        <button
+          onclick="DataStore.downloadFiles()"
+          class="nav-icon"
+          title="ڈیٹا فائلیں (books_data.js اور issued_data.js) ڈاؤنلوڈ کریں"
+        >
+          <i class="fas fa-file-arrow-down"></i>
+        </button>
+        <button
           onclick="showPage('issuedPage')"
           class="nav-icon"
           title="کتابوں کا اجراء"
@@ -363,6 +384,27 @@
               style="display: none"
               onchange="importFromExcel(event)"
             />
+            <button
+              class="icon-btn text-orange-600 text-2xl"
+              onclick="exportJSON()"
+              title="JSON بیک اپ ڈاؤنلوڈ کریں (کتابیں + اجراء)"
+            >
+              <i class="fas fa-file-export"></i>
+            </button>
+            <button
+              class="icon-btn text-teal-600 text-2xl"
+              onclick="document.getElementById('importJsonBooks').click()"
+              title="JSON بیک اپ امپورٹ کریں"
+            >
+              <i class="fas fa-file-code"></i>
+            </button>
+            <input
+              type="file"
+              id="importJsonBooks"
+              accept=".json,application/json"
+              style="display: none"
+              onchange="importJSON(event)"
+            />
           </div>
         </div>
 
@@ -454,6 +496,27 @@
               style="display: none"
               onchange="importIssuedFromExcel(event)"
             />
+            <button
+              class="icon-btn text-orange-600 text-2xl"
+              onclick="exportJSON()"
+              title="JSON بیک اپ ڈاؤنلوڈ کریں (کتابیں + اجراء)"
+            >
+              <i class="fas fa-file-export"></i>
+            </button>
+            <button
+              class="icon-btn text-teal-600 text-2xl"
+              onclick="document.getElementById('importJsonIssued').click()"
+              title="JSON بیک اپ امپورٹ کریں"
+            >
+              <i class="fas fa-file-code"></i>
+            </button>
+            <input
+              type="file"
+              id="importJsonIssued"
+              accept=".json,application/json"
+              style="display: none"
+              onchange="importJSON(event)"
+            />
 
             <!-- نئی کتاب جاری کریں کا بٹن -->
             <button class="btn btn-primary" onclick="openIssueModal()">
@@ -469,6 +532,7 @@
               <tr>
                 <th>نام (استاد/طالب علم)</th>
                 <th>کتاب کا نام</th>
+                <th class="text-center">جلد نمبر</th>
                 <th class="text-center">تاریخ اجراء</th>
                 <th class="text-center">واپسی کی تاریخ</th>
                 <th class="text-center">اسٹیٹس</th>
@@ -660,6 +724,18 @@
           </div>
           <div>
             <label class="block mb-2 font-bold text-gray-700"
+              >جلد نمبر
+              <span id="iVolHint" class="text-sm font-normal text-gray-500"></span
+            ></label>
+            <input
+              type="text"
+              id="iVolNo"
+              placeholder="مثلاً 1"
+              class="w-full border p-2.5 rounded font-sans focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block mb-2 font-bold text-gray-700"
               >تاریخ اجراء <span class="text-red-500">*</span></label
             >
             <input
@@ -758,6 +834,7 @@
     </script>
     <script src="books_data.js"></script>
     <script src="issued_data.js"></script>
+    <script src="storage.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
